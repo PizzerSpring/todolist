@@ -19,9 +19,15 @@ function App() {
     { id: v1(), title: 'RTK query', isDone: false },
   ])
 
+  const removeTask = (taskId: string) => {
+    const filteredTasks = tasks.filter(t => t.id !== taskId);
+    setTasks(filteredTasks);
+  }
+
+
   return (
     <>
-      <TodolistItem tasks={tasks}/>
+      <TodolistItem tasks={tasks} removeTask={removeTask}/>
     </>
   )
 }
