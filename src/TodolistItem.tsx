@@ -6,9 +6,10 @@ type TodolistItemType = {
     removeTask: (taskId: string) => void
     filterTasks: (filter: FilterValuesType) => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
-export const TodolistItem = ({tasks, removeTask,filterTasks, addTask}: TodolistItemType) => {
+export const TodolistItem = ({tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     return (
         <div>
@@ -30,7 +31,9 @@ export const TodolistItem = ({tasks, removeTask,filterTasks, addTask}: TodolistI
             <ul>
                 {tasks.map(t => {
                     return <li key={t.id}>
-                        <input type="checkbox" checked={t.isDone}/>
+                        <input type="checkbox" checked={t.isDone} onChange={(e) => {
+                            changeTaskStatus(t.id, e.currentTarget.checked);
+                        }}/>
                         <span>{t.title}</span>
                         <button onClick={() => {
                             removeTask(t.id);
