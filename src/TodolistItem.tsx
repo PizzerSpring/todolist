@@ -13,11 +13,19 @@ export const TodolistItem = ({tasks, removeTask,filterTasks, addTask}: TodolistI
     return (
         <div>
             <h1>What to learn</h1>
-            <input type="text" value={value} onChange={(e) => {
+            <input type="text" value={value}
+                   onChange={(e) => {
                 setValue(e.currentTarget.value);
+            }} onKeyDown={(e) => {
+                if(e.key === 'Enter') {
+                    addTask(value);
+                    setValue('');
+                }
+
             }}/>
             <button onClick={() => {
                 addTask(value);
+                setValue('');
             }}>+</button>
             <ul>
                 {tasks.map(t => {
