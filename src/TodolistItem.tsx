@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType, TaskType} from "./App.tsx";
 import {Button} from "./components/Button.tsx";
 
@@ -14,36 +14,37 @@ type TodolistItemType = {
 
 export const TodolistItem = ({filter, title, tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
+
+    const addTaskHanler = () => {
+        const trimmedTask = value.trim();
+        if (trimmedTask) {
+            addTask(trimmedTask);
+        }
+        setValue('');
+    }
+    const addTaskKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === 'Enter') {
+            addTaskHanler();
+        }
+    }
+    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value);
+    }
     return (
         <div>
             <h1>{title}</h1>
             <input type="text" value={value}
-                   onChange={(e) => {
-                setValue(e.currentTarget.value);
-            }} onKeyDown={(e) => {
-                if(e.key === 'Enter') {
-                    addTask(value);
-                    setValue('');
-                }
-            }}/>
+                   onChange={onChangeInputHandler} onKeyDown={addTaskKeyDownHandler}/>
 
-            <Button title={'+'} onClick={() => {
-                const trimmedTask = value.trim();
-                if (trimmedTask) {
-                    addTask(trimmedTask);
-                }
-                setValue('');
-            }}/>
+            <Button title={'+'} onClick={addTaskHanler}/>
             <ul>
                 {tasks.map(t => {
+                    const removeTaskHandler = () => removeTask(t.id);
+                    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(t.id, e.currentTarget.checked);
                     return <li key={t.id}>
-                        <input type="checkbox" checked={t.isDone} onChange={(e) => {
-                            changeTaskStatus(t.id, e.currentTarget.checked);
-                        }}/>
+                        <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
                         <span className={t.isDone ? 'task-is-active' : ''}>{t.title}</span>
-                        <Button title={'x'} onClick={() => {
-                            removeTask(t.id);
-                        }}/>
+                        <Button title={'x'} onClick={removeTaskHandler}/>
                     </li>
                 })}
             </ul>
