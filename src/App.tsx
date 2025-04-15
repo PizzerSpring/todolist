@@ -60,6 +60,7 @@ function App() {
   return (
     <>
       <TodolistItem
+          filter={filter}
           title={'What to learn?'}
           tasks={tasksForRender}
           removeTask={removeTask}

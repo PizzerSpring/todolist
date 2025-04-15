@@ -9,9 +9,10 @@ type TodolistItemType = {
     filterTasks: (filter: FilterValuesType) => void
     addTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterValuesType
 }
 
-export const TodolistItem = ({title ,tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
+export const TodolistItem = ({filter, title, tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     return (
         <div>
@@ -39,16 +40,16 @@ export const TodolistItem = ({title ,tasks, removeTask,filterTasks, addTask, cha
                         <input type="checkbox" checked={t.isDone} onChange={(e) => {
                             changeTaskStatus(t.id, e.currentTarget.checked);
                         }}/>
-                        <span>{t.title}</span>
+                        <span className={t.isDone ? 'task-is-active' : ''}>{t.title}</span>
                         <Button title={'x'} onClick={() => {
                             removeTask(t.id);
                         }}/>
                     </li>
                 })}
             </ul>
-            <Button title={'All'} onClick={() => {filterTasks('all')}}/>
-            <Button title={'Active'} onClick={() => {filterTasks('active')}}/>
-            <Button title={'Completed'} onClick={() => {filterTasks('completed')}}/>
+            <Button classes={filter === 'all' ? 'btn-filter-active' : ''} title={'All'} onClick={() => {filterTasks('all')}}/>
+            <Button classes={filter === 'active' ? 'btn-filter-active' : ''} title={'Active'} onClick={() => {filterTasks('active')}}/>
+            <Button classes={filter === 'completed' ? 'btn-filter-active' : ''} title={'Completed'} onClick={() => {filterTasks('completed')}}/>
         </div>
     );
 };

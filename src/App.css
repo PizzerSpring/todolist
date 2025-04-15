@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+.task-is-active {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.btn-filter-active {
+  background: aqua;
+}
