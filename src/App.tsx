@@ -22,7 +22,6 @@ function App() {
   ]);
 
   const [filter, setFilter] = useState<FilterValuesType>('all');
-  console.log(filter)
 
   let tasksForRender = tasks;
 
@@ -61,6 +60,7 @@ function App() {
   return (
     <>
       <TodolistItem
+          title={'What to learn?'}
           tasks={tasksForRender}
           removeTask={removeTask}
           filterTasks={filterTasks}

@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {FilterValuesType, TaskType} from "./App.tsx";
+import {Button} from "./components/Button.tsx";
 
 type TodolistItemType = {
+    title: string
     tasks: TaskType[]
     removeTask: (taskId: string) => void
     filterTasks: (filter: FilterValuesType) => void
@@ -9,11 +11,11 @@ type TodolistItemType = {
     changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
-export const TodolistItem = ({tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
+export const TodolistItem = ({title ,tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     return (
         <div>
-            <h1>What to learn</h1>
+            <h1>{title}</h1>
             <input type="text" value={value}
                    onChange={(e) => {
                 setValue(e.currentTarget.value);
@@ -22,12 +24,15 @@ export const TodolistItem = ({tasks, removeTask,filterTasks, addTask, changeTask
                     addTask(value);
                     setValue('');
                 }
-
             }}/>
-            <button onClick={() => {
-                addTask(value);
+
+            <Button title={'+'} onClick={() => {
+                const trimmedTask = value.trim();
+                if (trimmedTask) {
+                    addTask(trimmedTask);
+                }
                 setValue('');
-            }}>+</button>
+            }}/>
             <ul>
                 {tasks.map(t => {
                     return <li key={t.id}>
@@ -35,15 +40,15 @@ export const TodolistItem = ({tasks, removeTask,filterTasks, addTask, changeTask
                             changeTaskStatus(t.id, e.currentTarget.checked);
                         }}/>
                         <span>{t.title}</span>
-                        <button onClick={() => {
+                        <Button title={'x'} onClick={() => {
                             removeTask(t.id);
-                        }}>x</button>
+                        }}/>
                     </li>
                 })}
             </ul>
-            <button onClick={() => {filterTasks('all')} }>All</button>
-            <button onClick={() => {filterTasks('active')} }>Active</button>
-            <button onClick={() => {filterTasks('completed')} }>Completed</button>
+            <Button title={'All'} onClick={() => {filterTasks('all')}}/>
+            <Button title={'Active'} onClick={() => {filterTasks('active')}}/>
+            <Button title={'Completed'} onClick={() => {filterTasks('completed')}}/>
         </div>
     );
 };
