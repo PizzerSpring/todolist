@@ -14,11 +14,16 @@ type TodolistItemType = {
 
 export const TodolistItem = ({filter, title, tasks, removeTask,filterTasks, addTask, changeTaskStatus}: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+
+    const isCheckedCharacters = value.length > 20;
 
     const addTaskHanler = () => {
         const trimmedTask = value.trim();
         if (trimmedTask) {
             addTask(trimmedTask);
+        } else {
+            setError('Title is required');
         }
         setValue('');
     }
@@ -29,14 +34,17 @@ export const TodolistItem = ({filter, title, tasks, removeTask,filterTasks, addT
     }
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value);
+        setError(null);
     }
     return (
         <div>
             <h1>{title}</h1>
-            <input type="text" value={value}
+            <input className={error ? 'error-input' : ''} type="text" value={value}
                    onChange={onChangeInputHandler} onKeyDown={addTaskKeyDownHandler}/>
 
-            <Button title={'+'} onClick={addTaskHanler}/>
+            <Button disabled={isCheckedCharacters} title={'+'} onClick={addTaskHanler}/>
+            {error && <div className={'error-message'}>{error}</div>}
+            {isCheckedCharacters && <div className={'error-message'}>Maximum number of characters 20</div>}
             <ul>
                 {tasks.map(t => {
                     const removeTaskHandler = () => removeTask(t.id);

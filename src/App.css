@@ -49,3 +49,11 @@
 .btn-filter-active {
   background: aqua;
 }
+
+.error-message {
+  color: red;
+}
+
+.error-input {
+  border: 1px solid red;
+}
