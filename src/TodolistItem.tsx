@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FilterValuesType, TaskType} from "./App.tsx";
 
 type TodolistItemType = {
     tasks: TaskType[]
     removeTask: (taskId: string) => void
     filterTasks: (filter: FilterValuesType) => void
+    addTask: (title: string) => void
 }
 
-export const TodolistItem = ({tasks, removeTask,filterTasks}: TodolistItemType) => {
+export const TodolistItem = ({tasks, removeTask,filterTasks, addTask}: TodolistItemType) => {
+    const [value, setValue] = useState<string>('');
     return (
         <div>
             <h1>What to learn</h1>
+            <input type="text" value={value} onChange={(e) => {
+                setValue(e.currentTarget.value);
+            }}/>
+            <button onClick={() => {
+                addTask(value);
+            }}>+</button>
             <ul>
                 {tasks.map(t => {
                     return <li key={t.id}>

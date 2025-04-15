@@ -43,13 +43,23 @@ function App() {
     setFilter(filter);
   }
 
+  const addTask = (title: string) => {
+    const newTask: TaskType = {
+      id: v1(),
+      title,
+      isDone: false
+    }
+    setTasks([newTask,...tasks]);
+  }
+
 
   return (
     <>
       <TodolistItem
           tasks={tasksForRender}
           removeTask={removeTask}
-          filterTasks={filterTasks}/>
+          filterTasks={filterTasks}
+          addTask={addTask}/>
     </>
   )
 }
