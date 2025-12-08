@@ -33,8 +33,8 @@ export const TodolistItem = ({filter, title, tasks, removeTask,filterTasks, addT
         }
     }
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(null);
         setValue(e.currentTarget.value);
-        setError(null);
     }
     return (
         <div>
