@@ -6,7 +6,7 @@ type TodolistItemType = {
     todolist: TodolistType
     title: string
     tasks: TaskType[]
-    removeTask: (taskId: string) => void
+    removeTask: (todolistId: string ,taskId: string) => void
     filterTasks: (todolistId: string ,filter: FilterValuesType) => void
     addTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
@@ -50,7 +50,7 @@ export const TodolistItem = ({ title, tasks, removeTask,filterTasks, addTask, ch
             ) : (
                 <ul>
                     {tasks?.map(t => {
-                        const removeTaskHandler = () => removeTask(t.id);
+                        const removeTaskHandler = () => removeTask(todolist.id ,t.id);
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(t.id, e.currentTarget.checked);
                         return <li key={t.id}>
                             <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>

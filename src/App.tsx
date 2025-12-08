@@ -40,15 +40,15 @@ function App() {
   })
   // const [filter, setFilter] = useState<FilterValuesType>('all');
 
-  const removeTask = (taskId: string) => {
-    // const filteredTasks = tasks.filter(t => t.id !== taskId);
-    // setTasks(filteredTasks);
+  const removeTask = (todolistId: string ,taskId: string) => {
+    const newTasks = tasks[todolistId].filter(t => t.id !== taskId);
+    tasks[todolistId] = newTasks;
+    setTasks({...tasks});
   }
 
   const filterTasks = (todolistId: string ,filter: FilterValuesType) => {
     const newTodolists = todolists.map(todo => todo.id === todolistId ? {...todo, filter} : todo );
     setTodolists(newTodolists);
-    // setFilter(filter);
   }
 
   const addTask = (title: string) => {
