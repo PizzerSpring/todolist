@@ -15,29 +15,34 @@ type TodolistItemType = {
     removeTodolist: (todolistId: string) => void
     addTodolist: (title: string) => void
     changeTaskTitle: (todolistId: string, taskId: string, taskTitle: string) => void
+    changeTodolistTitle: (todolistId: string, todolistTitle: string) => void
 }
 
-export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist, changeTaskTitle }: TodolistItemType) => {
+export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist, changeTaskTitle, changeTodolistTitle }: TodolistItemType) => {
 
     const addTaskHandler = (title: string) => {
         addTask(todolist.id, title);
+    }
+
+    const changeTodolistTitleHandler = (title: string) => {
+        changeTodolistTitle(todolist.id, title);
     }
 
     return (
         <div>
             <AddItemForm addItem={addTodolist} />
             <h1>
-                {title}
+                <EditableSpan title={todolist.title} onChange={changeTodolistTitleHandler} />
                 <button onClick={() => {
                     removeTodolist(todolist.id);
                 }}>X</button>
             </h1>
             <AddItemForm addItem={addTaskHandler} />
-            {tasks?.length === 0 ? (
+            {tasks.length === 0 ? (
                 <p>No tasks</p>
             ) : (
                 <ul>
-                    {tasks?.map(t => {
+                    {tasks.map(t => {
                         const removeTaskHandler = () => removeTask(todolist.id, t.id);
                         const onChangeTitleHandler = (newValue: string) => {
                             changeTaskTitle(todolist.id, t.id, newValue);
