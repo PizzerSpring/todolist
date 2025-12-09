@@ -9,10 +9,11 @@ type TodolistItemType = {
     removeTask: (todolistId: string, taskId: string) => void
     filterTasks: (todolistId: string, filter: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
-    changeTaskStatus: (todolistId: string ,taskId: string, isDone: boolean) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    removeTodolist: (todolistId: string) => void
 }
 
-export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist }: TodolistItemType) => {
+export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist }: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +22,7 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
     const addTaskHanler = () => {
         const trimmedTask = value.trim();
         if (trimmedTask) {
-            addTask(todolist.id ,trimmedTask);
+            addTask(todolist.id, trimmedTask);
         } else {
             setError('Title is required');
         }
@@ -38,7 +39,16 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
     }
     return (
         <div>
-            <h1>{title}</h1>
+            <div>
+                <input type="text" />
+                <button>Add Todolist</button>
+            </div>
+            <h1>
+                {title}
+                <button onClick={() => {
+                    removeTodolist(todolist.id);
+                }}>X</button>
+            </h1>
             <input className={error ? 'error-input' : ''} type="text" value={value}
                 onChange={onChangeInputHandler} onKeyDown={addTaskKeyDownHandler} />
 
@@ -51,7 +61,7 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
                 <ul>
                     {tasks?.map(t => {
                         const removeTaskHandler = () => removeTask(todolist.id, t.id);
-                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolist.id ,t.id, e.currentTarget.checked);
+                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolist.id, t.id, e.currentTarget.checked);
                         return <li key={t.id}>
                             <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
                             <span className={t.isDone ? 'task-is-active' : ''}>{t.title}</span>
