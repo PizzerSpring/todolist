@@ -2,6 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FilterValuesType, TaskType, TodolistType } from "./App.tsx";
 import { Button } from "./components/Button.tsx";
 import { EditableSpan } from './EditableSpan.tsx';
+import { AddItemForm } from './AddItemForm.tsx';
 
 type TodolistItemType = {
     todolist: TodolistType
@@ -17,35 +18,14 @@ type TodolistItemType = {
 }
 
 export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist, changeTaskTitle }: TodolistItemType) => {
-    const [value, setValue] = useState<string>('');
-    const [error, setError] = useState<string | null>(null);
+   // const [value, setValue] = useState<string>('');
 
-    const isCheckedCharacters = value.length > 20;
-
-    const addTaskHanler = () => {
-        const trimmedTask = value.trim();
-        if (trimmedTask) {
-            addTask(todolist.id, trimmedTask);
-        } else {
-            setError('Title is required');
-        }
-        setValue('');
-    }
-    const addTaskKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && !isCheckedCharacters) {
-            addTaskHanler();
-        }
-    }
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(null);
-        setValue(e.currentTarget.value);
-    }
     return (
         <div>
             <div>
                 <input type="text" />
                 <button onClick={() => {
-                    addTodolist(value);
+                   // addTodolist(value);
                 }}>Add Todolist</button>
             </div>
             <h1>
@@ -54,12 +34,7 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
                     removeTodolist(todolist.id);
                 }}>X</button>
             </h1>
-            <input className={error ? 'error-input' : ''} type="text" value={value}
-                onChange={onChangeInputHandler} onKeyDown={addTaskKeyDownHandler} />
-
-            <Button disabled={isCheckedCharacters} title={'+'} onClick={addTaskHanler} />
-            {error && <div className={'error-message'}>{error}</div>}
-            {isCheckedCharacters && <div className={'error-message'}>Maximum number of characters 20</div>}
+            <AddItemForm id={todolist.id} addTask={addTask}/>
             {tasks?.length === 0 ? (
                 <p>No tasks</p>
             ) : (
