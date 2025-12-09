@@ -3,6 +3,10 @@ import { useState } from "react";
 import { v1 } from "uuid";
 import { TodolistItem } from "./TodolistItem.tsx";
 
+type TaskStateType = {
+  [key: string]: TaskType[]
+}
+
 export type TaskType = {
   id: string
   title: string
@@ -27,7 +31,7 @@ function App() {
     { id: todolistId2, title: 'What to buy', filter: 'all' },
   ])
 
-  const [tasks, setTasks] = useState({
+  const [tasks, setTasks] = useState<TaskStateType>({
     [todolistId1]: [
       { id: v1(), title: 'HTML&CSS', isDone: true },
       { id: v1(), title: 'JS', isDone: true },
