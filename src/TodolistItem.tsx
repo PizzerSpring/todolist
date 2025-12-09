@@ -9,7 +9,7 @@ type TodolistItemType = {
     removeTask: (todolistId: string, taskId: string) => void
     filterTasks: (todolistId: string, filter: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    changeTaskStatus: (todolistId: string ,taskId: string, isDone: boolean) => void
 }
 
 export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist }: TodolistItemType) => {
@@ -51,7 +51,7 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
                 <ul>
                     {tasks?.map(t => {
                         const removeTaskHandler = () => removeTask(todolist.id, t.id);
-                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(t.id, e.currentTarget.checked);
+                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolist.id ,t.id, e.currentTarget.checked);
                         return <li key={t.id}>
                             <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
                             <span className={t.isDone ? 'task-is-active' : ''}>{t.title}</span>

@@ -38,7 +38,6 @@ function App() {
       { id: v1(), title: 'GraphQL', isDone: false },
     ],
   })
-  // const [filter, setFilter] = useState<FilterValuesType>('all');
 
   const removeTask = (todolistId: string ,taskId: string) => {
     const newTasks = tasks[todolistId].filter(t => t.id !== taskId);
@@ -64,21 +63,13 @@ function App() {
     setTasks({...tasks});
   }
 
-  const changeTaskStatus = (taskId: string, isDone: boolean) => {
-    // const newTasks = tasks.map(t => t.id === taskId ? { ...t, isDone: isDone } : t);
-    // setTasks(newTasks);
+  const changeTaskStatus = (todolistId: string ,taskId: string, isDone: boolean) => {
+    const newTasks = tasks[todolistId].map(t => t.id === taskId ? { ...t, isDone: isDone } : t);
+
+    tasks[todolistId] = newTasks;
+
+    setTasks({...tasks});
   }
-
-  /*let tasksForRender = tasks;
-
-  if (filter === 'active') {
-    tasksForRender = tasks.filter(t => !t.isDone);
-  }
-
-  if (filter === 'completed') {
-    tasksForRender = tasks.filter(t => t.isDone);
-  }*/
-
 
   return (
     <div className='App'> 
