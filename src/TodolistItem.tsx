@@ -13,9 +13,10 @@ type TodolistItemType = {
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     removeTodolist: (todolistId: string) => void
     addTodolist: (title: string) => void
+    changeTaskTitle: (todolistId: string, taskId: string, taskTitle: string) => void
 }
 
-export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist }: TodolistItemType) => {
+export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist, changeTaskTitle }: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
@@ -65,10 +66,13 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
                 <ul>
                     {tasks?.map(t => {
                         const removeTaskHandler = () => removeTask(todolist.id, t.id);
+                        const onChangeTitleHandler = (newValue: string) => {
+                            changeTaskTitle(todolist.id, t.id, newValue);
+                        }
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolist.id, t.id, e.currentTarget.checked);
                         return <li key={t.id}>
                             <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
-                            <EditableSpan title={t.title} />
+                            <EditableSpan title={t.title} onChange={onChangeTitleHandler}/>
                             <Button title={'x'} onClick={removeTaskHandler} />
                         </li>
                     })}

@@ -1,21 +1,30 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
 type EditableSpanType = {
     title: string
+    onChange: (title: string) => void
 }
 
-export const EditableSpan = ({title}: EditableSpanType) => {
-    const [value, setValue] = useState(title);
+export const EditableSpan = ({ title, onChange }: EditableSpanType) => {
+    const [value, setValue] = useState('');
     const [editMode, setEditMode] = useState(false);
 
-    return editMode
-      ? <input type="text" value={value} onBlur={(e) => {
+    const onBlurHandler = () => {
         setEditMode(false);
-      }} onChange={(e) => {
+        onChange(value);
+    }
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value);
-      }}/> :
-      <span onDoubleClick={(e) => {
+    }
+
+    const onDoubleClickHandler = () => {
         setEditMode(true);
-      }}>{value}</span>
+        setValue(title);
+    }
+
+    return editMode
+        ? <input type="text" value={value} onBlur={onBlurHandler} onChange={onChangeHandler} /> :
+        <span onDoubleClick={onDoubleClickHandler}>{title}</span>
 
 }
