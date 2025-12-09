@@ -18,23 +18,21 @@ type TodolistItemType = {
 }
 
 export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist, changeTaskTitle }: TodolistItemType) => {
-   // const [value, setValue] = useState<string>('');
+
+    const addTaskHandler = (title: string) => {
+        addTask(todolist.id, title);
+    }
 
     return (
         <div>
-            <div>
-                <input type="text" />
-                <button onClick={() => {
-                   // addTodolist(value);
-                }}>Add Todolist</button>
-            </div>
+            <AddItemForm addItem={addTodolist} />
             <h1>
                 {title}
                 <button onClick={() => {
                     removeTodolist(todolist.id);
                 }}>X</button>
             </h1>
-            <AddItemForm id={todolist.id} addTask={addTask}/>
+            <AddItemForm addItem={addTaskHandler} />
             {tasks?.length === 0 ? (
                 <p>No tasks</p>
             ) : (
@@ -47,7 +45,7 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolist.id, t.id, e.currentTarget.checked);
                         return <li key={t.id}>
                             <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
-                            <EditableSpan title={t.title} onChange={onChangeTitleHandler}/>
+                            <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
                             <Button title={'x'} onClick={removeTaskHandler} />
                         </li>
                     })}
