@@ -51,13 +51,17 @@ function App() {
     setTodolists(newTodolists);
   }
 
-  const addTask = (title: string) => {
-    /* const newTask: TaskType = {
-       id: v1(),
-       title,
-       isDone: false
-     }
-     setTasks([newTask, ...tasks]);*/
+  const addTask = (todolistId: string ,title: string) => {
+
+    const newTask: TaskType = {
+      id: v1(),
+      title,
+      isDone: false
+    }
+
+    tasks[todolistId] = [newTask, ...tasks[todolistId]];
+
+    setTasks({...tasks});
   }
 
   const changeTaskStatus = (taskId: string, isDone: boolean) => {
