@@ -11,9 +11,10 @@ type TodolistItemType = {
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     removeTodolist: (todolistId: string) => void
+    addTodolist: (title: string) => void
 }
 
-export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist }: TodolistItemType) => {
+export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, changeTaskStatus, todolist, removeTodolist, addTodolist }: TodolistItemType) => {
     const [value, setValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
@@ -41,7 +42,9 @@ export const TodolistItem = ({ title, tasks, removeTask, filterTasks, addTask, c
         <div>
             <div>
                 <input type="text" />
-                <button>Add Todolist</button>
+                <button onClick={() => {
+                    addTodolist(value);
+                }}>Add Todolist</button>
             </div>
             <h1>
                 {title}

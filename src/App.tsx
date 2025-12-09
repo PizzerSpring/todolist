@@ -80,7 +80,15 @@ function App() {
 
   }
 
-  const addTodolist = () => {
+  const addTodolist = (title: string) => {
+    const newTodo: TodolistType = {
+      id: v1(),
+      title,
+      filter: 'all'
+    }
+
+    setTodolists([newTodo, ...todolists]);
+    setTasks({...tasks, [newTodo.id]: []});
 
   }
 
@@ -107,7 +115,8 @@ function App() {
             filterTasks={filterTasks}
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
-            removeTodolist={removeTodolist} />
+            removeTodolist={removeTodolist}
+            addTodolist={addTodolist} />
         )
       })}
     </div>
