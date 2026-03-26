@@ -1,6 +1,11 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { Button } from "./components/Button.tsx";
+import { Button } from '@mui/material';
 import { TodolistType } from './App.tsx';
+import { TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { ControlPoint} from '@mui/icons-material';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+
 
 type AddItemFormType = {
     addItem: (title: string) => void
@@ -34,11 +39,13 @@ export const AddItemForm = ({ addItem }: AddItemFormType) => {
 
     return (
         <>
-            <input className={error ? 'error-input' : ''} type="text" value={value}
+            <TextField variant='outlined' label='Type value' error={!!error} type="text" value={value} helperText={error}
                 onChange={onChangeInputHandler} onKeyDown={addTaskKeyDownHandler} />
 
-            <Button disabled={isCheckedCharacters} title={'+'} onClick={addTaskHanler} />
-            {error && <div className={'error-message'}>{error}</div>}
+            <IconButton disabled={isCheckedCharacters} onClick={addTaskHanler} color='primary'>
+                 <AddBoxIcon />
+            </IconButton>
+          
             {isCheckedCharacters && <div className={'error-message'}>Maximum number of characters 20</div>}
         </>
     )
